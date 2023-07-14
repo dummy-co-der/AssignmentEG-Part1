@@ -58,11 +58,44 @@
   padding: 8px 16px;
   font-size: 16px;
   color: #fff;
-  background-color: #000;
+  background-color: black;
+  /* background-color: #000; */
   cursor: pointer;
   border-radius: 4px;
 }
 
 .download:hover {
-  background-color: #333;
+  background-color: #3498db;
+}
+
+.arrow-left,
+.arrow-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.arrow-left:hover {
+  background-color: #3498db;
+}
+.arrow-right:hover {
+  background-color: #3498db;
+}
+
+.arrow-left {
+  left: 10px;
+}
+
+.arrow-right {
+  right: 10px;
 }

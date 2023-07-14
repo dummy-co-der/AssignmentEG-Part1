@@ -79,6 +79,37 @@ const App = () => {
     document.body.removeChild(link);
   };
 
+  const handleKeyDown = (event) => {
+    if (selectedImageIndex !== null) {
+      if (event.key === "ArrowLeft") {
+        navigateImage(-1);
+      } else if (event.key === "ArrowRight") {
+        navigateImage(1);
+      }
+    }
+  };
+
+  const navigateImage = (direction) => {
+    const newIndex = selectedImageIndex + direction;
+    if (newIndex >= 0 && newIndex < images.length) {
+      setSelectedImageIndex(newIndex);
+    }
+  };
+
+  const handleClickOutside = (event) => {
+    if (selectedImageIndex !== null && !event.target.closest(".image-viewer")) {
+      closeImage();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="app">
       <h1 className="heading"> EventGraphia - Part1 </h1>
@@ -96,10 +127,32 @@ const App = () => {
       {selectedImageIndex !== null && (
         <div className="overlay" onClick={closeImage}>
           <div className="image-viewer">
+            {selectedImageIndex > 0 && (
+              <div
+                className="arrow-left"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigateImage(-1);
+                }}
+              >
+                &lt;
+              </div>
+            )}
             <img
               src={images[selectedImageIndex].fullSizeUrl}
               alt={`Image ${selectedImageIndex + 1}`}
             />
+            {selectedImageIndex < images.length - 1 && (
+              <div
+                className="arrow-right"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigateImage(1);
+                }}
+              >
+                &gt;
+              </div>
+            )}
             <div
               className="download"
               onClick={() =>
