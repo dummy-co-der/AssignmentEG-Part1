@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
+import Loader from "./components/Loader";
 
 const THUMBNAIL_SIZE = 200;
 const FULL_SIZE = 500;
@@ -10,6 +11,7 @@ const IMAGES_PER_SCROLL = 30;
 const App = () => {
   const [images, setImages] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchImages();
@@ -17,6 +19,7 @@ const App = () => {
 
   const fetchImages = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         `https://api.slingacademy.com/v1/sample-data/photos?limit=${IMAGES_PER_SCROLL}`
       );
@@ -33,8 +36,10 @@ const App = () => {
         }`,
       }));
       setImages((prevImages) => [...prevImages, ...fetchedImages]);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching images:", error);
+      setLoading(false);
     }
   };
 
@@ -106,6 +111,7 @@ const App = () => {
           </div>
         </div>
       )}
+      {loading && <Loader />}
     </div>
   );
 };
